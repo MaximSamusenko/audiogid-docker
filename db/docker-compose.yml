@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  db:
+    container_name: audiogid_db
+    build: .
+    restart: always
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: audiogid
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+secrets:
+  db_password:
+    file: ./password.txt
+volumes:
+  db_data:
