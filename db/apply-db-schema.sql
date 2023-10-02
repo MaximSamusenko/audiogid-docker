@@ -1,7 +1,7 @@
-create sequence article_seq start with 1 increment by 50;
-create sequence location_seq start with 1 increment by 50;
-create sequence media_seq start with 1 increment by 50;
-create sequence tag_seq start with 1 increment by 50;
+create sequence article_seq start with 1 increment by 1;
+create sequence location_seq start with 1 increment by 1;
+create sequence media_seq start with 1 increment by 1;
+create sequence tag_seq start with 1 increment by 1;
 create table article (id bigint not null, location_id bigint not null, name varchar(255) not null, coordinates geometry(Point,4326) not null, primary key (id));
 create table location (id bigint not null, title varchar(255) not null, coordinates geometry(Point,4326) not null, primary key (id));
 create table location_tag (location_id bigint not null, tag_id bigint not null, primary key (location_id, tag_id));
@@ -12,3 +12,5 @@ alter table if exists location_tag add constraint FK3v8cy6pwhs2ful50h2jirsx2g fo
 alter table if exists location_tag add constraint FKgrpnco0g0npewc87e8he3oj5w foreign key (tag_id) references tag;
 alter table if exists media add constraint FK92sbocgjb2ewti4xnp20hc7jv foreign key (article_id) references article;
 alter table if exists media add constraint FK2f2gcqy96hw6jyi9so23ftdr6 foreign key (location_id) references location;
+create index location_coordinates_ind ON location USING GIST ( coordinates );
+create index article_coordinates_ind ON article USING GIST ( coordinates );
